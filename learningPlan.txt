@@ -1,0 +1,201 @@
+
+============================================================
+PHASE 1: TOOLING & FRONTEND BASICS (VERY HIGH PRIORITY)
+============================================================
+
+CORE CONCEPTS:
+1. npm / yarn / pnpm
+   - package.json (dependencies vs devDependencies)
+   - node_modules resolution
+   - npm scripts
+   - lock files (package-lock.json, yarn.lock)
+
+INTERVIEW QUESTIONS:
+- Difference between dependencies and devDependencies?
+- What happens when you run npm install?
+- Why lock files are important?
+- npm vs yarn vs pnpm?
+
+2. Vite / CRA / Webpack
+- Vite: dev = esbuild, prod = rollup
+- CRA: webpack-based, slower, legacy
+- Webpack: configurable but heavy
+
+INTERVIEW QUESTIONS:
+- Why Vite is faster?
+- How bundling works?
+- Dev vs production build difference?
+
+3. Babel
+- Transpiles modern JS → browser-compatible JS
+- JSX → JS
+- Does NOT bundle
+
+INTERVIEW QUESTIONS:
+- Why do we need Babel if browsers support ES6?
+- Babel vs TypeScript?
+
+============================================================
+PHASE 2: CORE JAVASCRIPT (MUST-HAVE)
+============================================================
+
+TOPICS:
+1. Closures
+- What is a closure?
+- Where closures are used in React?
+- How closures cause memory leaks (event listeners, timers)
+
+2. Debouncing vs Throttling
+- Debounce: execute after delay (search input)
+- Throttle: execute at intervals (scroll, resize)
+
+CODING:
+- Implement debounce(fn, delay)
+- Implement throttle(fn, delay)
+
+INTERVIEW QUESTIONS:
+- Difference between debounce and throttle?
+- Where would you use each?
+
+3. Event Loop
+- Call stack
+- Microtasks vs macrotasks
+- setTimeout vs Promise
+
+============================================================
+PHASE 3: REACT CORE (MOST IMPORTANT)
+============================================================
+
+HOOKS (YOU MUST CODE):
+- useState
+- useEffect (cleanup, dependency array)
+- useRef
+- useMemo
+- useCallback
+- React.memo
+
+INTERVIEW QUESTIONS:
+- Why useEffect runs twice in StrictMode?
+- Difference between useMemo and useCallback?
+- When NOT to use useCallback?
+- What causes unnecessary re-renders?
+
+CUSTOM HOOKS (PRACTICE):
+- useDebounce
+- useThrottle
+- useFetch
+- usePrevious
+
+INTERVIEW CODING:
+- Build a search with debounce
+- API call with loading & error states
+- Controlled vs uncontrolled components
+
+============================================================
+PHASE 4: DATA HANDLING, STATE & ARCHITECTURE
+============================================================
+
+API HANDLING:
+- fetch vs axios
+- loading, error, success states
+- pagination
+- infinite scroll
+- retry logic
+
+INTERVIEW QUESTIONS:
+- How do you handle API failures?
+- How do you avoid race conditions?
+- What is optimistic UI?
+
+CONTEXT API:
+- When to use context
+- When NOT to use context
+- Performance pitfalls
+
+REDUX / REDUX TOOLKIT:
+- store, slice, reducer
+- thunk for async actions
+- loading & error handling
+
+INTERVIEW QUESTIONS:
+- Context vs Redux?
+- Why Redux Toolkit?
+- What problem does thunk solve?
+
+============================================================
+PHASE 5: PERFORMANCE, TESTING & ADVANCED TOPICS
+============================================================
+
+PERFORMANCE:
+- React.memo
+- useCallback
+- useMemo
+- Code splitting
+- Lazy loading
+- Virtualization
+- Web Workers (off-main-thread work)
+
+INTERVIEW QUESTIONS:
+- How do you improve page performance?
+- How to debug re-renders?
+- When memoization is harmful?
+
+TESTING (RTL + JEST – VERY IMPORTANT):
+- Jest basics
+- React Testing Library philosophy
+- fireEvent vs userEvent
+- getBy / queryBy / findBy
+- Mocking APIs
+- Snapshot testing (when NOT to use)
+
+INTERVIEW PRACTICE QUESTIONS:
+- Write a test for a button click
+- Test API loading state
+- Mock fetch / axios
+- Test conditional rendering
+
+============================================================
+FINAL 24-HOUR STRATEGY
+============================================================
+
+DAY BEFORE INTERVIEW:
+- Revise hooks & JS basics
+- Practice 2–3 coding questions
+- Review debounce/throttle
+- Review useEffect edge cases
+
+INTERVIEW DAY:
+- Think aloud
+- Write clean code
+- Explain trade-offs
+- Don’t over-optimize prematurely
+
+============================================================
+GOLDEN INTERVIEW LINE (USE THIS):
+============================================================
+
+"I focus on predictable state, clean side-effects, and performance-aware React patterns rather than premature optimization."
+
+============================================================
+END
+============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
