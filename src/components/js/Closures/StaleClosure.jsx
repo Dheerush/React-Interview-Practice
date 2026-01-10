@@ -17,4 +17,7 @@ export default StaleClosure;
  *       => Each render creates new state values.
  *       => But closures may still reference state from an older render
  * 
+ *  2. Why does this happen in React?
+ *     - In JS, functions are basically object (refereced type) , so each render, is a new state
+ * 
  */
