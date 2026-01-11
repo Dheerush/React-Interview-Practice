@@ -50,11 +50,11 @@ var num3 = 5;
 
 // ==================== var vs let (setTimeout interview classic) ====================
 
-for (var i = 0; i <= 3; i++) {
-    setTimeout(() => {
-        console.log("var i:", i);
-    }, 2000);
-}
+// for (var i = 0; i <= 3; i++) {
+//     setTimeout(() => {
+//         console.log("var i:", i);
+//     }, 2000);
+// }
 // OUTPUT: 4 4 4 4
 /**
  * WHY?
@@ -64,11 +64,11 @@ for (var i = 0; i <= 3; i++) {
  * - setTimeout runs later → prints same i
  */
 
-for (let i = 0; i <= 3; i++) {
-    setTimeout(() => {
-        console.log("let i:", i);
-    }, 2000);
-}
+// for (let i = 0; i <= 3; i++) {
+//     setTimeout(() => {
+//         console.log("let i:", i);
+//     }, 2000);
+// }
 // OUTPUT: 0 1 2 3
 /**
  * WHY?
@@ -362,13 +362,13 @@ console.log("IIFE Answer:", answer);
 
 // ==================== var loop fix using IIFE ====================
 
-for (var j = 0; j <= 3; j++) {
-    (function (j) {
-        setTimeout(() => {
-            console.log("IIFE j:", j);
-        }, 2000);
-    })(j);
-}
+// for (var j = 0; j <= 3; j++) {
+//     (function (j) {
+//         setTimeout(() => {
+//             console.log("IIFE j:", j);
+//         }, 2000);
+//     })(j);
+// }
 
 /**
  * IIFE creates a NEW scope
@@ -658,26 +658,263 @@ boundFn();
  * 
  */
 
-// let's practice Prmomises
+// let's practice Promises
 // Example 1
-let checkEven = new Promise((resolve, reject) => {
-    let number = 4;
-    if (number % 2 === 0) resolve("The number is even!")
-    else reject("This number is odd")
+console.log("Practicing the Promise")
+let myPromise1 = new Promise((resolve, reject) => {
+    let num = 10;
+    num % 2 === 0 ? resolve("the number is even") : reject("the number is odd")
 })
+myPromise1.then((val) => console.log(val)).catch((error) => console.log(error)); // the number is even
 
-checkEven.then((message)=>console.log(message)).catch((error)=>console.error(error));
 
-// Promise.all() Method: Waits for all promises to resolve and returns their results as an array. If any promise is rejected, it immediately rejects.
+//Example2:  create a promise that resolves after 2 seconds
+function prFn(ms) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("Resolving promise after 2 seconds");
+        }, ms);
+    });
+}
+
+prFn(2000)
+    .then((val) => console.log(val))
+    .catch((err) => console.log(err));
+
+
+// Example3: Promise all: Run multiple async tasks in parallel and continue only if all succeed
+function task(name, time, shouldFail = false) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (shouldFail) {
+                reject(`${name} failed`)
+            } else {
+                resolve(`${name} suceessful`)
+            }
+        }, time)
+    })
+}
+// making one promise fail/reject
 Promise.all([
-    Promise.resolve("task 1 completed"),
-    Promise.resolve("task 1 completed"),
-    Promise.reject("task 1 completed")
-]) .then((results) => console.log(results))
-    .catch((error) => console.error(error));
+    task("task1", 1000),
+    task("task2", 1000, true),
+    task("task3", 1000)
+]).then((results) => {
+    console.log("Promise.all");
+    console.log(results)
+}
+).catch((error) => console.error(error)); // if one promise fails, one rejection stops everything
+
+// making all promises fulfilled
+Promise.all([
+    task("task1", 1000),
+    task("task2", 2000),
+    task("task3", 3000)
+]).then((results) => console.log(results)).catch((error) => console.error(error));
 
 
-// Promise.allSettled
+// Example4: Promise.allSettled: Use case: I want result of ALL promises, even if some fail
+Promise.allSettled([
+    task("taskA", 1000),
+    task("taskB", 1500, true), // fails
+    task("taskC", 2000)
+])
+    .then((results) => {
+        console.log("Promise.allSettled result:");
+        console.log(results);
+    });
+
+
+// Example5: Promise.race() : First settled promise (success OR failure) wins
+Promise.race([
+    task("T1", 4000, true), // failed task
+    task("T2", 1000, true), // failed task   --> since this will be settled first 
+    task("T3", 4000), //  task
+]).then((val) => console.log(val)).catch((err) => console.log(err));
+
+
+// Example6: Promise.any(): Use case: First SUCCESS wins, failures are ignored
+Promise.any([
+    task("any1", 1000, true),
+    task("any2", 1500, true),
+    task("any3", 2000)
+])
+    .then((result) => {
+        console.log("Promise.any SUCCESS:", result);
+    })
+    .catch((error) => {
+        console.log("Promise.any ERROR:", error);
+    });
+
+
+/** async await
+ *  - It is a syntactic sugar over Promises. 
+ *  - It makes async code look synchronous and readable.
+ *    --> async function always returns a Promise
+ *    --> await can be used only inside async functions
+ */
+
+
+
+// Example 1: basic Syntax 
+async function fetchApiData() {
+    const response = await fetch("https://api.nationalize.io/?name=nathaniel"); // fetch() does NOT return JSON. It returns a Response object
+    const data = await response.json();
+    console.log("Response is: ", response);
+    console.log("Response is: ", data);
+}
+fetchApiData()
+
+// Example 2: Promise and aysnct awaie
+function fetchApiWithPromise() {
+    fetch("https://api.nationalize.io/?name=nathaniel").then((response) => {
+        if (!response.ok) throw new Error("API called promise")
+        return response.json();
+    }).then((data) => {
+        console.log("API response data in promise");
+        console.log(data);
+    }).catch((error) => {
+        console.log("Promise ERROR:", error.message);
+    });
+}
+fetchApiWithPromise();
+
+
+// Example 2: 
+let fetchApiWithAsyncAwait = async () => {
+    try {
+        let response = await fetch("https://api.nationalize.io/?name=nathaniel");
+        let data = await response.json();
+        console.log("Data in async-await: ", data)
+    } catch (error) {
+        console.error("Async-Await ERROR:", error.message);
+    }
+}
+fetchApiWithAsyncAwait();
+
+
+//  Object traversal and manipulation
+const userResponse1 = {
+    status: "success",
+    meta: {
+        requestId: "req_12345",
+        timestamp: "2026-01-11T10:30:00Z"
+    },
+    data: {
+        user: {
+            id: 101,
+            name: "Dheeru Sharma",
+            age: 29,
+            isActive: true,
+            roles: ["admin", "developer"],
+            address: {
+                city: "Bangalore",
+                country: "India",
+                pincode: 560001
+            }
+        },
+        skills: [
+            {
+                type: "programming",
+                values: ["JavaScript", "Python", "C++"]
+            },
+            {
+                type: "frameworks",
+                values: ["React", "Node.js", "Express"]
+            }
+        ],
+        projects: [
+            {
+                id: "p1",
+                name: "E-Commerce App",
+                techStack: ["React", "Redux", "Node.js"],
+                isCompleted: true
+            },
+            {
+                id: "p2",
+                name: "Chat Application",
+                techStack: ["Socket.io", "Node.js"],
+                isCompleted: false
+            }
+        ]
+    },
+    errors: null
+};
+
+// give me a list of techStack
+let allTechStacks = userResponse1.data.projects.flatMap((project) => project.techStack);
+console.log("All Tech Stack: ", allTechStacks); //  [ 'React', 'Redux', 'Node.js', 'Socket.io', 'Node.js' ]
+
+let allSkills = userResponse1.data.skills.flatMap((skill) => skill.values);
+console.log("All Skills: ", allSkills); // [ 'JavaScript', 'Python', 'C++', 'React', 'Node.js', 'Express' ]
+
+// get user city
+let userCity = userResponse1.data.user.address.city;
+console.log("User City: ", userCity); // Bangalore
+
+
+// Optional Chaining : We use it when property may not exist and API response is unreliable
+// Null Coalescing   : When we want a default value
+
+
+const orderResponse = {
+    orderId: "ORD123",
+    customer: {
+        name: "Amit",
+        contact: {
+            email: "amit@gmail.com"
+            // phone is missing
+        }
+    },
+    payment: {
+        method: "UPI",
+        amount: 0,        // valid value
+        discount: null   // may or may not exist
+    },
+    delivery: null      // delivery info not assigned yet
+};
+
+// Get phone number
+let phoneNumber = orderResponse.customer.contact?.phone
+console.log("phone number: ", phoneNumber); // we are using the ooptional chaing,if it is not present it will give undefined
+
+let getPhoneNumber = orderResponse.customer.contact?.phone ?? "No phone number provided";
+console.log("Phone number: ", getPhoneNumber); // No phone number provided 
+// nullish coalescing operator (??) checks for null or undefined only, if phone is missing it will give the default value
+
+
+//now lets pracice these
+// setTimeout
+// setInterval
+// clearTimeout
+// clearInterval
+// setImmediate 
+
+
+
+// Deboucing and throttling
+// Spread vs Rest
+// Event Loop 
+// Polyfills
+
+
+
+// Cloning in JS
+// Arrays, vs Array like objects and conversion
+// ARRAY Practice and manipulation
+// Object Manipulation
+// String Practice
+
+
+
+
+
+
+
+
+
+
+
 
 
 
